@@ -1,10 +1,12 @@
-const { validationResult } = require("express-validator");
-const User = require("../models/user.model");
-const { SUCCESS, FAIL, ERROR } = require("../utils/httpStatus");
-const asyncWrapper = require("../middlewares/asyncWrapper");
-const appError = require("../utils/appError");
-const bcrypt = require("bcryptjs");
-const generateToken = require("../utils/generateToken");
+const { validationResult } = require('express-validator');
+const User = require('../models/user.model');
+const { SUCCESS, FAIL, ERROR } = require('../utils/httpStatus');
+const asyncWrapper = require('../middlewares/asyncWrapper');
+const appError = require('../utils/appError');
+const bcrypt = require('bcryptjs');
+const generateToken = require('../utils/generateToken');
+
+const DEFAULT_AVATAR_PATH = 'uploads/profile.jpg';
 
 const getAllUsers = asyncWrapper(async (req, res) => {
   const query = req.query;
@@ -24,11 +26,12 @@ const register = asyncWrapper(async (req, res, next) => {
 
   const oldUser = await User.findOne({ email: email });
   if (oldUser) {
-    const error = appError.create("User already exists", 400, FAIL);
+    const error = appError.create('User already exists', 400, FAIL);
     return next(error);
   }
 
   const hashedPassword = await bcrypt.hash(password, 10);
+  const avatar = req.file ? req.file.filename : DEFAULT_AVATAR_PATH;
 
   newUser = new User({
     firstName,
@@ -36,7 +39,7 @@ const register = asyncWrapper(async (req, res, next) => {
     email,
     password: hashedPassword,
     role,
-    avatar: req.file.filename,
+    avatar,
   });
 
   const token = await generateToken({
@@ -54,7 +57,7 @@ const login = asyncWrapper(async (req, res, next) => {
   const { email, password } = req.body;
   if (!email && !password) {
     const error = appError.create(
-      "Please provide email and password",
+      'Please provide email and password',
       400,
       FAIL
     );
@@ -63,7 +66,7 @@ const login = asyncWrapper(async (req, res, next) => {
 
   const user = await User.findOne({ email: email });
   if (!user) {
-    const error = appError.create("User not found", 404, FAIL);
+    const error = appError.create('User not found', 404, FAIL);
     return next(error);
   }
   const matchedPassword = await bcrypt.compare(password, user.password);
@@ -79,7 +82,7 @@ const login = asyncWrapper(async (req, res, next) => {
       data: { token },
     });
   } else {
-    const error = appError.create("Invalid email or password", 401, FAIL);
+    const error = appError.create('Invalid email or password', 401, FAIL);
     return next(error);
   }
 });

@@ -1,6 +1,6 @@
-const mongoose = require("mongoose");
-const { isEmail } = require("validator");
-const { USER, ADMIN, MANAGER } = require("../utils/userRoles");
+const mongoose = require('mongoose');
+const { isEmail } = require('validator');
+const { USER, ADMIN, MANAGER } = require('../utils/userRoles');
 
 const userSchema = new mongoose.Schema({
   firstName: {
@@ -15,7 +15,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
     unique: true,
-    validate: [isEmail, "Please enter a valid email"],
+    validate: [isEmail, 'Please enter a valid email'],
   },
   password: {
     type: String,
@@ -31,8 +31,8 @@ const userSchema = new mongoose.Schema({
   },
   avatar: {
     type: String,
-    default: null,
+    default: 'uploads/profile.jpg',
   },
 });
 
-module.exports = mongoose.model("User", userSchema);
+module.exports = mongoose.model('User', userSchema);
