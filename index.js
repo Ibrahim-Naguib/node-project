@@ -9,7 +9,7 @@ const app = express();
 const mongoose = require("mongoose");
 const { ERROR } = require("./utils/httpStatus");
 const { statusCode } = require("./utils/appError");
-const url = process.env.MONGO_URL;
+const url = process.env.MONGODB_URI;
 
 mongoose.connect(url).then(() => {
   console.log("Connected to the database");
