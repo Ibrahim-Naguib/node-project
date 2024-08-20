@@ -8,7 +8,6 @@ require("dotenv").config();
 const app = express();
 const mongoose = require("mongoose");
 const { ERROR } = require("./utils/httpStatus");
-const { statusCode } = require("./utils/appError");
 const url = process.env.MONGODB_URI;
 
 mongoose.connect(url).then(() => {
