@@ -1,0 +1,77 @@
+{
+  "users": {
+    "getAllUsers": {
+      "method": "GET",
+      "route": "/api/users",
+      "description": "Retrieve a list of all users",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "queryParams": {
+        "limit": "optional, number of users per page",
+        "page": "optional, page number"
+      }
+    },
+    "register": {
+      "method": "POST",
+      "route": "/api/users/register",
+      "description": "Register a new user",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "firstName": "string, required",
+        "lastName": "string, required",
+        "email": "string, required",
+        "password": "string, required",
+        "role": "string, optional"
+      }
+    },
+    "login": {
+      "method": "POST",
+      "route": "/api/users/login",
+      "description": "Login a user",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "email": "string, required",
+        "password": "string, required"
+      }
+    }
+  },
+  "courses": {
+    "getCourses": {
+      "method": "GET",
+      "route": "/api/courses",
+      "description": "Retrieve a list of all courses",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "queryParams": {
+        "limit": "optional, number of courses per page",
+        "page": "optional, page number"
+      }
+    },
+    "addCourse": {
+      "method": "POST",
+      "route": "/api/courses",
+      "description": "Add a new course",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "name": "string, required",
+        "price": "number, required"
+      }
+    },
+    "getCourseById": {
+      "method": "GET",
+      "route": "/api/courses/:courseId",
+      "description": "Retrieve a course by ID",
+      "headers": {
+        "Content-Type": "application/json"
+      }
+    }
+  }
+}
