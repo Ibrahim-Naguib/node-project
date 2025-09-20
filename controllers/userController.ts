@@ -1,4 +1,4 @@
-import { Request, Response, RequestHandler } from 'express';
+import { RequestHandler } from 'express';
 import asyncHandler from 'express-async-handler';
 import User from '../models/User';
 import AppError from '../utils/appError';
@@ -207,5 +207,10 @@ export const deleteUser: RequestHandler<{ id: string }, ApiResponse> =
   });
 
 // TODO: Add user avatar upload functionality
-// TODO: Add user preferences/settings
-// TODO: Add user activity logging
+
+// @desc    Upload user avatar
+// @route   POST /api/users/profile/avatar
+// @access  Private
+export const uploadAvatar: RequestHandler = asyncHandler(
+  async (req, res) => {}
+);

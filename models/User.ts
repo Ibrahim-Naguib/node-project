@@ -37,18 +37,21 @@ const userSchema = new Schema<IUser>(
       enum: ['user', 'admin'],
       default: 'user',
     },
+    passwordResetCode: { type: String },
+    passwordResetExpires: { type: Date },
+    passwordResetVerified: { type: Boolean, default: false },
   },
   {
     timestamps: true,
     versionKey: false,
     toJSON: {
-      transform: function (doc, ret) {
+      transform: function (doc, ret: IUser) {
         delete ret.password;
         return ret;
       },
     },
     toObject: {
-      transform: function (doc, ret) {
+      transform: function (doc, ret: IUser) {
         delete ret.password;
         return ret;
       },

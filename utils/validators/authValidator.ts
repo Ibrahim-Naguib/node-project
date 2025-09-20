@@ -1,8 +1,8 @@
 import { body } from 'express-validator';
 import { handleValidationErrors } from '../../middlewares/validationMiddleware';
 
-// Create user validation (for admin creating users)
-export const createUserValidator = [
+// Register validation
+export const registerValidator = [
   body('firstName')
     .notEmpty()
     .withMessage('First name is required')
@@ -34,22 +34,21 @@ export const createUserValidator = [
   handleValidationErrors,
 ];
 
-// Update user validation
-export const updateUserValidator = [
-  body('firstName')
-    .optional()
-    .isLength({ min: 2 })
-    .withMessage('First name must be at least 2 characters')
-    .trim(),
-
-  body('lastName')
-    .optional()
-    .isLength({ min: 2 })
-    .withMessage('Last name must be at least 2 characters')
-    .trim(),
-
+// Login validation
+export const loginValidator = [
   body('email')
-    .optional()
+    .isEmail()
+    .withMessage('Please provide a valid email')
+    .normalizeEmail(),
+
+  body('password').notEmpty().withMessage('Password is required'),
+
+  handleValidationErrors,
+];
+
+// Forgot password validation
+export const forgotPasswordValidator = [
+  body('email')
     .isEmail()
     .withMessage('Please provide a valid email')
     .normalizeEmail(),
@@ -57,22 +56,29 @@ export const updateUserValidator = [
   handleValidationErrors,
 ];
 
-// Change password validation (for authenticated users managing their profile)
-export const changePasswordValidator = [
-  body('currentPassword')
+// Verify reset code validation
+export const verifyResetCodeValidator = [
+  body('resetCode')
     .notEmpty()
-    .withMessage('Current password is required'),
+    .withMessage('Reset code is required')
+    .isLength({ min: 6, max: 6 })
+    .withMessage('Reset code must be exactly 6 characters')
+    .isNumeric()
+    .withMessage('Reset code must contain only numbers'),
+
+  handleValidationErrors,
+];
+
+// Reset password validation
+export const resetPasswordValidator = [
+  body('email')
+    .isEmail()
+    .withMessage('Please provide a valid email')
+    .normalizeEmail(),
 
   body('newPassword')
     .isLength({ min: 6 })
     .withMessage('New password must be at least 6 characters'),
-
-  body('confirmPassword').custom((value, { req }) => {
-    if (value !== req.body.newPassword) {
-      throw new Error('Password confirmation does not match new password');
-    }
-    return true;
-  }),
 
   handleValidationErrors,
 ];

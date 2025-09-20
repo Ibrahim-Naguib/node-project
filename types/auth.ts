@@ -32,3 +32,16 @@ export interface ChangePasswordData {
   currentPassword: string;
   newPassword: string;
 }
+
+export interface ForgotPasswordData {
+  email: string;
+}
+
+export interface VerifyResetCodeData {
+  resetCode: string;
+}
+
+export interface ResetPasswordData {
+  email: string;
+  newPassword: string;
+}

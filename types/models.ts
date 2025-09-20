@@ -12,6 +12,9 @@ export interface IUser extends Document {
   email: string;
   password?: string;
   role: 'user' | 'admin';
+  passwordResetCode?: string;
+  passwordResetExpires?: Date;
+  passwordResetVerified?: boolean;
   createdAt: Date;
   updatedAt: Date;
 
